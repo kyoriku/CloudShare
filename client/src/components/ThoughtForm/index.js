@@ -7,6 +7,7 @@ const ThoughtForm = ({ onThoughtAdded }) => {
     image: ""
   });
   const [characterCount, setCharacterCount] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInput = useRef(null);
 
   const handleChange = (event) => {
@@ -18,6 +19,31 @@ const ThoughtForm = ({ onThoughtAdded }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    
+    setIsUploading(true);
+
+    // Handle image upload if a file is selected
+    let imageUrl = formState.image;
+    if (fileInput.current.files.length > 0) {
+      const data = new FormData();
+      data.append('image', fileInput.current.files[0]);
+
+      try {
+        const res = await fetch('/api/image-upload', {
+          mode: 'cors',
+          method: 'POST',
+          body: data,
+        });
+        if (!res.ok) throw new Error(res.statusText);
+        const postResponse = await res.json();
+        imageUrl = postResponse.Location;
+        console.log('postImage: ', imageUrl);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // Submit the thought with the image URL (if uploaded)
     try {
       const res = await fetch('/api/users', {
         method: 'POST',
@@ -25,42 +51,23 @@ const ThoughtForm = ({ onThoughtAdded }) => {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formState),
+        body: JSON.stringify({ ...formState, image: imageUrl }),
       });
       const data = await res.json();
       console.log(data);
       onThoughtAdded(data); // Add the new thought to the list
     } catch (error) {
       console.error('Error posting thought:', error);
-    }
+    } finally {
+      // Reset form state and upload status
+      setFormState({ username: "", thought: "", image: "" });
+      setCharacterCount(0);
+      setIsUploading(false);
 
-    // Reset form state
-    setFormState({ username: "", thought: "", image: "" });
-    setCharacterCount(0);
-
-    // Reset file input
-    if (fileInput.current) {
-      fileInput.current.value = '';
-    }
-  };
-
-  const handleImageUpload = async (event) => {
-    event.preventDefault();
-    const data = new FormData();
-    data.append('image', fileInput.current.files[0]);
-
-    try {
-      const res = await fetch('/api/image-upload', {
-        mode: 'cors',
-        method: 'POST',
-        body: data,
-      });
-      if (!res.ok) throw new Error(res.statusText);
-      const postResponse = await res.json();
-      setFormState({ ...formState, image: postResponse.Location });
-      console.log('postImage: ', postResponse.Location);
-    } catch (error) {
-      console.log(error);
+      // Reset file input
+      if (fileInput.current) {
+        fileInput.current.value = '';
+      }
     }
   };
 
@@ -87,15 +94,12 @@ const ThoughtForm = ({ onThoughtAdded }) => {
           className="form-input col-12 "
           onChange={handleChange}
         />
-        <label className="form-input col-12  p-1">
+        <label className="form-input col-12 p-1">
           Add an image to your thought:
           <input type="file" ref={fileInput} className="form-input p-2" />
-          <button className="btn" onClick={handleImageUpload} type="button">
-            Upload
-          </button>
         </label>
-        <button className="btn col-12 " type="submit">
-          Submit
+        <button className="btn col-12" type="submit" disabled={isUploading}>
+          {isUploading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
     </div>
