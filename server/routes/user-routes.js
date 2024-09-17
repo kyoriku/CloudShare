@@ -35,7 +35,7 @@ router.get('/users/:username', (req, res) => {
       '#un': 'username',
       '#ca': 'createdAt',
       '#th': 'thought',
-      "#img": "image" 
+      "#img": "image"
     },
     ExpressionAttributeValues: {
       ':user': req.params.username,
@@ -56,15 +56,18 @@ router.get('/users/:username', (req, res) => {
 
 // Create new user
 router.post('/users', (req, res) => {
+  const newItem = {
+    username: req.body.username,
+    createdAt: Date.now(),
+    thought: req.body.thought,
+    image: req.body.image
+  };
+
   const params = {
     TableName: table,
-    Item: {
-      username: req.body.username,
-      createdAt: Date.now(),
-      thought: req.body.thought,
-      image: req.body.image
-    },
+    Item: newItem,
   };
+
   dynamodb.put(params, (err, data) => {
     if (err) {
       console.error(
@@ -73,8 +76,8 @@ router.post('/users', (req, res) => {
       );
       res.status(500).json(err); // an error occurred
     } else {
-      console.log('Added item:', JSON.stringify(data, null, 2));
-      res.json({ Added: JSON.stringify(data, null, 2) });
+      console.log('Added item:', JSON.stringify(newItem, null, 2));
+      res.json(newItem); // Send back the new item
     }
   });
 });

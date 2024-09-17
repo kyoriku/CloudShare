@@ -1,8 +1,9 @@
-import React from 'react';
+// ThoughtList.js
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 
 // Renders the list of thoughts
-const ThoughtList = ({ thoughts, title }) => {
+const ThoughtList = memo(({ thoughts, title }) => {
   if (!thoughts.length) {
     return <h3>No Thoughts Yet</h3>;
   }
@@ -11,7 +12,7 @@ const ThoughtList = ({ thoughts, title }) => {
       <h3>{title}</h3>
       {thoughts &&
         thoughts.map((thought) => (
-          <div key={thought.createdAt} className="card mb-3">
+          <div key={`${thought.username}:${thought.createdAt}`} className="card mb-3">
             <p className="card-header">
               <Link
                 to={`/profile/${thought.username}`}
@@ -39,6 +40,6 @@ const ThoughtList = ({ thoughts, title }) => {
         ))}
     </div>
   );
-};
+});
 
 export default ThoughtList;
