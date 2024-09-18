@@ -10,6 +10,10 @@ This project involves setting up and integrating various AWS services to build a
 * **Add Images**: Upload and view images associated with thoughts.
 * **Deploy Application**: Host the application on an EC2 instance for public access.
 
+## Recent Improvements
+* **Enhanced State Management**: The homepage now re-renders automatically upon submission of a new "thought", leveraging React's virtual DOM capabilities for a smoother user experience. Previously, users had to manually reload the page to see new submissions.
+* **Streamlined User Interface**: The image upload functionality has been integrated into the main submit button, reducing the number of steps required to complete the form. This change simplifies the user experience and makes the application more intuitive to use.
+
 ## Installation
 
 ### Prerequisites
