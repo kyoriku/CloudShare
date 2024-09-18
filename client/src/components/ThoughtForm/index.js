@@ -8,18 +8,30 @@ const ThoughtForm = ({ onThoughtAdded }) => {
   });
   const [characterCount, setCharacterCount] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // State to hold error message
   const fileInput = useRef(null);
 
   const handleChange = (event) => {
     if (event.target.value.length <= 280) {
       setFormState({ ...formState, [event.target.name]: event.target.value });
       setCharacterCount(event.target.value.length);
+
+      // Clear error message if user starts typing the name
+      if (event.target.name === 'username' && errorMessage) {
+        setErrorMessage('');
+      }
     }
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     
+    // Prevent submission if no name is entered
+    if (!formState.username) {
+      setErrorMessage("Please enter your name."); // Set error message
+      return;
+    }
+
     setIsUploading(true);
 
     // Handle image upload if a file is selected
@@ -43,7 +55,7 @@ const ThoughtForm = ({ onThoughtAdded }) => {
       }
     }
 
-    // Submit the thought with the image URL (if uploaded)
+    // Submit the form data even if thought is empty
     try {
       const res = await fetch('/api/users', {
         method: 'POST',
@@ -51,7 +63,11 @@ const ThoughtForm = ({ onThoughtAdded }) => {
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...formState, image: imageUrl }),
+        body: JSON.stringify({ 
+          ...formState, 
+          image: imageUrl, 
+          thought: formState.thought || "" // Ensure thought is at least an empty string
+        }),
       });
       const data = await res.json();
       console.log(data);
@@ -87,8 +103,11 @@ const ThoughtForm = ({ onThoughtAdded }) => {
           className="form-input col-12 "
           onChange={handleChange}
         />
+        {/* Conditionally render error message if username is missing */}
+        {errorMessage && <p className="text-error">{errorMessage}</p>}
+        
         <textarea
-          placeholder="Here's a new thought..."
+          placeholder="Here's a new thought (optional)..."
           name="thought"
           value={formState.thought}
           className="form-input col-12 "
