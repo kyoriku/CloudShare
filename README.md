@@ -23,6 +23,13 @@ This project involves setting up and integrating various AWS services to build a
 * **Enhanced State Management**: The homepage now re-renders automatically upon submission of a new "thought", leveraging React's virtual DOM capabilities for a smoother user experience. Previously, users had to manually reload the page to see new submissions.
 * **Streamlined User Interface**: The image upload functionality has been integrated into the main submit button, reducing the number of steps required to complete the form. This change simplifies the user experience and makes the application more intuitive to use.
 
+## Screenshots
+![Home](client/public/screenshots/aws-thought-home.png)
+*The home page where users can view recent thoughts.*
+
+![Profile](client/public/screenshots/aws-thought-profile.png)
+*The profile page displaying user information and their submitted thoughts.*
+
 ## Installation
 
 ### Prerequisites
@@ -90,3 +97,6 @@ Feel free to open issues or submit pull requests to improve the application.
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&logo=mit)](https://opensource.org/licenses/MIT)
 
 This project is licensed under the [MIT](https://opensource.org/licenses/MIT) license - see the LICENSE file for details.
+
+## Questions
+If you have any questions, please email devkyoriku@gmail.com.
