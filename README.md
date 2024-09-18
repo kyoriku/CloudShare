@@ -1,4 +1,4 @@
-# AWS Thoughts Application
+# AWS Thought
 
 ## Built With
 [![AWS](https://img.shields.io/badge/Amazon%20Web%20Services-232F3E.svg?style=for-the-badge&logo=Amazon-Web-Services&logoColor=white)](https://aws.amazon.com/)
@@ -87,4 +87,6 @@ The application will use the AWS SDK's default credential provider chain, elimin
 Feel free to open issues or submit pull requests to improve the application.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge&logo=mit)](https://opensource.org/licenses/MIT)
+
+This project is licensed under the [MIT](https://opensource.org/licenses/MIT) license - see the LICENSE file for details.
