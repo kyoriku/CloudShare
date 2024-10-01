@@ -49,7 +49,7 @@ The application will use the AWS SDK's default credential provider chain, elimin
 ### Setup
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/aws-thought.git
+   git clone https://github.com/kyoriku/aws-thought.git 
    cd aws-thought
    ```
 
