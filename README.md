@@ -65,6 +65,51 @@ Note: EC2 deployment has been disabled to avoid AWS charges after free tier expi
 ![Home](client/public/screenshots/cloudshare-home.jpg)
 ![Profile](client/public/screenshots/cloudshare-profile.jpg)
 
+## Technical Details
+This cloud-based application was built using the following technologies and patterns:
+
+* **AWS Integration**: 
+  * S3 bucket and params configuration for file storage
+  * DynamoDB document client setup and table schema
+  * Environment variable management for AWS credentials
+  * UUID implementation for unique file names
+  * SDK configuration for AWS services
+
+* **Database Architecture**:
+  * DynamoDB table with username partition key
+  * CreatedAt timestamp sort key
+  * Scan operations for retrieving all posts
+  * Query operations with key conditions
+  * Expression attributes for projections
+
+* **React Implementation**:
+  * Function components with hooks (useState, useEffect)
+  * React Router for client-side routing
+  * Memo for performance optimization
+  * Service Worker for offline capabilities
+  * Dynamic route parameters with useParams
+
+* **File Processing**:
+  * Multer middleware for file uploads
+  * Memory storage configuration
+  * Buffer handling for file processing
+  * Public read ACL setup
+  * File type validation and handling
+
+* **Express Backend**:
+  * Static file serving in production
+  * Route handling for users and images
+  * API endpoint implementation
+  * Request body parsing
+  * Error handling middleware
+
+* **State Management**:
+  * Form state handling
+  * Loading state tracking
+  * Error message management
+  * Character count validation
+  * Real-time UI updates
+
 ## Installation
 To run this project locally:
 
@@ -106,8 +151,8 @@ To run this project locally:
    ```
 
 2. Use the application to:
-  * Create and view thoughts
-  * Upload images with thoughts
+  * Create and view posts
+  * Upload images with posts
   * View user profiles
   * Manage thought content
 
